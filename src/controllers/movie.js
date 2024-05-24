@@ -2,8 +2,21 @@ const Movies = require('../models/Movie');
 
 const Movie = {
   getAllMovies: async (req, res) => {
-    const movies = await Movies.find()
-    res.status(200).send(movies);
+    const category = req.query.category;
+
+    try {
+        let query = {};
+        if (category) {
+            query = { category: category };
+        }
+
+        const movies = await Movies.find(query);
+
+        res.status(200).send(movies);
+
+    } catch (error) {
+        res.status(500).send("Internal Server Error");
+    }
   },
 
   getMovie: async (req, res) => {
