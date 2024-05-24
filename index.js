@@ -9,7 +9,7 @@ const port = 3001;
 dotenv.config();
 
 // PRODUCTION CLUSTER
-// mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.tmpl1tp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
+mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.c7ivcki.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
 
 app.use(cors());
 app.use(express.json())
