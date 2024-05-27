@@ -2,17 +2,32 @@ const Movies = require('../models/Movie');
 
 const Movie = {
   getAllMovies: async (req, res) => {
-    const { category, name, year, director } = req.query;
+    let { 
+      category, 
+      name, 
+      year, 
+      director, 
+      page, 
+      perPage 
+    } = req.query;
+
+    page = parseInt(page) || 1;
+    perPage = parseInt(perPage) || 5;
 
     try {
       let movies = Movies.find();
+
+      const skip = (page - 1) * perPage;
 
       if (category) { movies.where('category').equals(category) }
       if (name) { movies.where('name').regex(new RegExp(name, 'i')) } // Case-insensitive partial match 
       if (year) { movies.where('year').equals(parseInt(year)) } // Ensure year is an integer
       if (director) { movies.where('director').regex(new RegExp(director, 'i')) }
 
-      const moviesQuery = await movies.exec();
+      const moviesQuery = await movies.find()
+                                      .skip(skip)
+                                      .limit(perPage)
+                                      .exec();
 
       res.status(200).send(moviesQuery);
 
